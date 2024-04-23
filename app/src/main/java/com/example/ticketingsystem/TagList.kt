@@ -17,12 +17,13 @@ import androidx.compose.ui.unit.dp
 @Composable
 fun TagList(){
     val languages = listOf("Telugu", "Hindi", "English", "Malayalam")
-    LazyRow(modifier = Modifier.padding(vertical = 15.dp, horizontal = 15.dp)) {
+    LazyRow(modifier = Modifier.padding(vertical = 20.dp, horizontal = 15.dp)) {
         items(languages.size){
             index -> TagButton(language = languages[index])
         }
     }
 }
+
 
 @Composable
 fun TagButton(language : String){
