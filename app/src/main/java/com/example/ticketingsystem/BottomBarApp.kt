@@ -32,36 +32,75 @@ fun BottomBarApp(navController: NavHostController) {
     val currentRoute = navBackStackEntry?.destination?.route
 
     BottomAppBar(actions = {
-        Row(horizontalArrangement = Arrangement.SpaceBetween, modifier = Modifier
-            .weight(1f)
-            .padding(horizontal = 15.dp)) {
-            Column(
-                Modifier.fillMaxHeight(), Arrangement.Center, Alignment.CenterHorizontally
+            Row(
+                horizontalArrangement = Arrangement.SpaceBetween, modifier = Modifier
+                    .weight(1f)
+                    .padding(horizontal = 15.dp)
             ) {
-                IconButton(onClick = { navController.navigate(Home.route) }, Modifier.fillMaxHeight(0.6f)) {
-                    Icon(imageVector = Icons.Filled.Home, contentDescription = "Home", Modifier.size(30.dp), tint = if(currentRoute == Home.route) Colors.Red else Color.Black)
-                }
-                Text(text = "Home", modifier = Modifier.padding(vertical = 0.dp), color = if(currentRoute == Home.route) Colors.Red else Color.Black)
-            }
-            Column( verticalArrangement = Arrangement.Center, horizontalAlignment = Alignment.CenterHorizontally, modifier = Modifier.fillMaxHeight()) {
-                IconButton(onClick = { navController.navigate(Movies.route) },  Modifier.fillMaxHeight(0.6f)) {
-                    Image(painter = if(currentRoute == Movies.route) painterResource(id = R.drawable.moviered) else painterResource(id = R.drawable.movie), contentDescription = "Movie", modifier = Modifier.size(30.dp))
-                }
-                Text(text = "Movies", modifier = Modifier.padding(vertical = 0.dp), color = if(currentRoute == Movies.route) Colors.Red else Color.Black)
-            }
-            Column(  verticalArrangement = Arrangement.Center, horizontalAlignment = Alignment.CenterHorizontally, modifier = Modifier.fillMaxHeight()
-            ) {
-                IconButton(onClick = { navController.navigate(Profile.route) }, Modifier.fillMaxHeight(0.6f)) {
-                    Icon(
-                        imageVector = Icons.Filled.Person,
-                        contentDescription = "Profile",
-                        Modifier.size(30.dp),
-                        tint = if (currentRoute == Profile.route) Colors.Red else Color.Black
+                Column(
+                    Modifier.fillMaxHeight(), Arrangement.Center, Alignment.CenterHorizontally
+                ) {
+                    IconButton(
+                        onClick = { navController.navigate(Home.route) },
+                        Modifier.fillMaxHeight(0.6f)
+                    ) {
+                        Icon(
+                            imageVector = Icons.Filled.Home,
+                            contentDescription = "Home",
+                            Modifier.size(30.dp),
+                            tint = if (currentRoute == Home.route) Colors.Red else Color.Black
+                        )
+                    }
+                    Text(
+                        text = "Home",
+                        modifier = Modifier.padding(vertical = 0.dp),
+                        color = if (currentRoute == Home.route) Colors.Red else Color.Black
                     )
                 }
-                Text(text = "Profile", modifier = Modifier.padding(vertical = 0.dp), fontWeight = FontWeight.Normal, color = if(currentRoute == Profile.route) Colors.Red else Color.Black )
+                Column(
+                    verticalArrangement = Arrangement.Center,
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                    modifier = Modifier.fillMaxHeight()
+                ) {
+                    IconButton(
+                        onClick = { navController.navigate(Movies.route) },
+                        Modifier.fillMaxHeight(0.6f)
+                    ) {
+                        Image(
+                            painter = if (currentRoute == Movies.route) painterResource(id = R.drawable.moviered) else painterResource(
+                                id = R.drawable.movie
+                            ), contentDescription = "Movie", modifier = Modifier.size(30.dp)
+                        )
+                    }
+                    Text(
+                        text = "Movies",
+                        modifier = Modifier.padding(vertical = 0.dp),
+                        color = if (currentRoute == Movies.route) Colors.Red else Color.Black
+                    )
+                }
+                Column(
+                    verticalArrangement = Arrangement.Center,
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                    modifier = Modifier.fillMaxHeight()
+                ) {
+                    IconButton(
+                        onClick = { navController.navigate(Profile.route) },
+                        Modifier.fillMaxHeight(0.6f)
+                    ) {
+                        Icon(
+                            imageVector = Icons.Filled.Person,
+                            contentDescription = "Profile",
+                            Modifier.size(30.dp),
+                            tint = if (currentRoute == Profile.route) Colors.Red else Color.Black
+                        )
+                    }
+                    Text(
+                        text = "Profile",
+                        modifier = Modifier.padding(vertical = 0.dp),
+                        fontWeight = FontWeight.Normal,
+                        color = if (currentRoute == Profile.route) Colors.Red else Color.Black
+                    )
+                }
             }
-        }
-    },
-      Modifier.height(60.dp)  )
+        }, Modifier.height(60.dp))
 }
