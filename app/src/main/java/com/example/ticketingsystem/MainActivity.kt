@@ -41,7 +41,7 @@ fun MyNavigation(){
             val movieId = backStackEntry.arguments?.getInt("movieId")
             if(movieId != null){
                 MovieDetailScreen(movieId = movieId, navController=navController)
-            }
+            }}
         composable(Orders.route){
             OrdersScreen(navController)
         }
