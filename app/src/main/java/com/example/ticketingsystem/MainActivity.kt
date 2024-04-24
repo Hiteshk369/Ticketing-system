@@ -42,6 +42,18 @@ fun MyNavigation(){
             if(movieId != null){
                 MovieDetailScreen(movieId = movieId, navController=navController)
             }
+        composable(Orders.route){
+            OrdersScreen(navController)
+        }
+        composable(Help.route){
+            HelpScreen(navController)
+        }
+        composable(Settings.route){
+            SettingsScreen(navController)
+        }
+        composable(Offers.route){
+            OffersScreen(navController)
+
         }
     }
 }
