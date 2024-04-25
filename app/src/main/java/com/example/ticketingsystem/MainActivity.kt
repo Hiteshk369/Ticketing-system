@@ -42,6 +42,24 @@ fun MyNavigation(){
             if(movieId != null){
                 MovieDetailScreen(movieId = movieId, navController=navController)
             }}
+        composable(
+            route = "reviews/{movieId}",
+            arguments = listOf(navArgument("movieId"){type= NavType.IntType})
+        ){
+                backStackEntry ->
+            val movieId = backStackEntry.arguments?.getInt("movieId")
+            if(movieId != null){
+                ReviewsScreen(movieId = movieId, navController=navController)
+            }}
+        composable(
+            route = "shows/{movieId}",
+            arguments = listOf(navArgument("movieId"){type= NavType.IntType})
+        ){
+                backStackEntry ->
+            val movieId = backStackEntry.arguments?.getInt("movieId")
+            if(movieId != null){
+                MovieShowScreen(movieId = movieId, navController=navController)
+            }}
         composable(Orders.route){
             OrdersScreen(navController)
         }
