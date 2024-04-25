@@ -10,7 +10,6 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 
-
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -42,6 +41,16 @@ fun MyNavigation(){
             if(movieId != null){
                 MovieDetailScreen(movieId = movieId, navController=navController)
             }}
+        composable(
+            route="order/{orderId}",
+            arguments = listOf(navArgument("orderId"){type= NavType.IntType})
+        ){
+            backStackEntry ->
+            val orderId = backStackEntry.arguments?.getInt("orderId")
+            if(orderId != null){
+                OrderById(orderId = orderId, navController=navController)
+            }
+        }
         composable(Orders.route){
             OrdersScreen(navController)
         }
