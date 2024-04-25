@@ -3,18 +3,17 @@ package com.example.ticketingsystem
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.aspectRatio
-import androidx.compose.foundation.layout.fillMaxHeight
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
@@ -28,13 +27,13 @@ import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.capitalize
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
+import androidx.navigation.NavController
 
 @Composable
 fun OrdersScreen(navController: NavHostController){
@@ -44,36 +43,39 @@ fun OrdersScreen(navController: NavHostController){
         },
     ){ paddingValues ->
         Column(modifier = Modifier.padding(paddingValues)) {
-            OrdersList()
+            OrdersList(navController = navController)
         }
     }
 }
 
+data class Order(
+    val id: Int,
+    val date: String,
+    val imageId: Int,
+    val name: String,
+    val time: String,
+    val theater: String,
+    val address: String,
+)
+val orders = listOf(
+    Order(1, "13 May,2024", R.drawable.movie1, "Manjummel Boys", "01:10:16 PM", "Miraj Cinemas", "A2A central mall, Balanagar"),
+    Order(2, "14 May,2024", R.drawable.movie2, "Hanuman", "02:40:26 PM", "Cine Planet", "Kompally"),
+    Order(3, "15 May,2024", R.drawable.movie3, "Zindagi Na Milegi Dobara", "11:50:36 PM", "Pvr Inox", "Kukatpally"),
+    Order(4, "16 May,2024", R.drawable.movie4, "Aa Dil Hai Mushkil", "07:11:11 PM", "Cine Polis", "Lulu Mall,KPHB")
+)
+
 @Composable
-fun OrdersList(){
-    val date = listOf("13 May,2024","14 May,2024","15 May,2024","16 May,2024")
-    val imageIds = listOf(R.drawable.movie1,R.drawable.movie2,R.drawable.movie3,R.drawable.movie4)
-    val name= listOf("Manjummel Boys","Hanuman","Zindagi Na Milegi Dobara", "Aa Dil Hai Mushkil")
-    val time= listOf("01:10:16 PM","02:40:26 PM","11:50:36 PM", "07:11:11 PM")
-    val theater= listOf("Miraj Cinemas","Cine Planet","Pvr Inox", "Cine Polis")
-    val address= listOf("A2A central mall, Balanagar","Kompally","Kukatpally", "Lulu Mall,KPHB")
+fun OrdersList(navController: NavHostController){
+
     LazyColumn(modifier = Modifier.padding(10.dp)) {
-        items(date.size){index->
-            OrdersCard(
-                date =date[index],
-                imageId = imageIds.getOrNull(index) ?: -1,
-                name = name[index],
-                time = time[index],
-                theater=theater[index],
-                address=address[index],
-            )
+        items(orders) { order ->
+            OrdersCard(order = order, navController = navController)
         }
-
     }
 }
 
 @Composable
-fun OrdersCard(date: String, imageId: Int,name:String,time:String,theater:String,address:String){
+fun OrdersCard(order: Order, navController: NavController ){
     Column(modifier = Modifier.padding(vertical = 5.dp)) {
         Row(verticalAlignment = Alignment.CenterVertically){
             Text(
@@ -84,7 +86,7 @@ fun OrdersCard(date: String, imageId: Int,name:String,time:String,theater:String
                 color = Color.Black
             )
             Text(
-                text = "$date at $time",
+                text = "${order.date} at ${order.time}",
                 modifier = Modifier.padding(vertical = 5.dp),
                 fontSize = 16.sp, fontWeight = FontWeight.SemiBold
             )
@@ -94,6 +96,7 @@ fun OrdersCard(date: String, imageId: Int,name:String,time:String,theater:String
                 .border(width = 0.5.dp, color = Colors.Slate, shape = RoundedCornerShape(10.dp))
                 .fillMaxWidth()
                 .padding(vertical = 10.dp, horizontal = 10.dp)
+                .clickable { navController.navigate("order/${order.id}") }
         ) {
             Row(modifier = Modifier
                 .drawBehind {
@@ -108,7 +111,7 @@ fun OrdersCard(date: String, imageId: Int,name:String,time:String,theater:String
                 .padding(bottom = 10.dp)
             ) {
                 Image(
-                    painter = painterResource(id = imageId),
+                    painter = painterResource(id = order.imageId),
                     contentDescription = "Movies",
                     contentScale = ContentScale.FillBounds,
                     modifier = Modifier
@@ -121,7 +124,7 @@ fun OrdersCard(date: String, imageId: Int,name:String,time:String,theater:String
                 Column {
                     Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.SpaceBetween, modifier = Modifier.fillMaxWidth()){
                         Text(
-                            text = name,
+                            text =  order.name ,
                             fontSize = 15.sp,
                             fontWeight = FontWeight.SemiBold,
                             color = Color.Black
@@ -140,14 +143,14 @@ fun OrdersCard(date: String, imageId: Int,name:String,time:String,theater:String
                         color = Color.Gray
                     )
                     Text(
-                        text ="day, $date | 10:10 PM".capitalize(),
+                        text ="day, ${order.date} | ${order.time}".capitalize(),
                         fontSize = 14.sp,
                         fontWeight = FontWeight.SemiBold,
                         color = Color.Black,
                         modifier = Modifier.padding(0.dp,10.dp,0.dp,0.dp)
                     )
                     Text(
-                        text ="$theater: $address".capitalize(),
+                        text ="${order.theater}: ${order.address}".capitalize(),
                         fontSize = 13.sp,
                         fontWeight = FontWeight.Normal,
                         color = Color.Gray,
