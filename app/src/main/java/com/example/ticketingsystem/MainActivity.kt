@@ -1,16 +1,21 @@
 package com.example.ticketingsystem
 
+import android.os.Build
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.annotation.RequiresApi
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
+import java.time.LocalDate
+import java.time.format.DateTimeFormatter
 
 class MainActivity : ComponentActivity() {
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
@@ -19,6 +24,7 @@ class MainActivity : ComponentActivity() {
     }
 }
 
+@RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun MyNavigation(){
     val navController = rememberNavController()
@@ -60,6 +66,22 @@ fun MyNavigation(){
             val movieId = backStackEntry.arguments?.getInt("movieId")
             if(movieId != null){
                 MovieShowScreen(movieId = movieId, navController=navController)
+            }
+        }
+        composable(
+            route = "tickets/movieId={movieId}&date={selectedDate}",
+            arguments = listOf(
+                navArgument("movieId") { type = NavType.IntType },
+                navArgument("selectedDate") { type = NavType.StringType }
+            )
+        ) { backStackEntry ->
+            val movieId = backStackEntry.arguments?.getInt("movieId")
+            val selectedDateString = backStackEntry.arguments?.getString("selectedDate")
+            val selectedDate = selectedDateString?.let {
+                LocalDate.parse(it, DateTimeFormatter.ofPattern("yyyy-MM-dd"))
+            }
+            if (movieId != null && selectedDate != null) {
+                SeatsScreen(movieId = movieId, selectedDate = selectedDate, navController = navController)
             }
         }
         composable(

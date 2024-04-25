@@ -146,7 +146,7 @@ fun MovieShowScreen(movieId: Int, navController: NavHostController) {
                         movieShows?.let { shows ->
                             if(shows.isNotEmpty()){
                                 shows.forEach { theatre ->
-                                    TheatreItem(theatre = theatre)
+                                    TheatreItem(theatre = theatre, movieId=movieId, selectedDate=selectedDate.value, navController=navController)
                                 }
                             }else{
                                 Text(text = "No shows!", fontFamily = interFontFamily, fontSize = 20.sp, fontWeight = FontWeight.Medium)
@@ -164,8 +164,9 @@ fun MovieShowScreen(movieId: Int, navController: NavHostController) {
     }
 }
 
+@RequiresApi(Build.VERSION_CODES.O)
 @Composable
-fun TheatreItem(theatre: Theatre){
+fun TheatreItem(theatre: Theatre, movieId: Int, selectedDate: LocalDate, navController: NavHostController){
     Column(Modifier.padding(bottom = 15.dp, top = 15.dp)) {
         Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.SpaceBetween, modifier = Modifier.fillMaxWidth()) {
             Row(verticalAlignment = Alignment.CenterVertically, modifier = Modifier.fillMaxWidth(0.8f)) {
@@ -184,6 +185,7 @@ fun TheatreItem(theatre: Theatre){
                 Column(
                     Modifier
                         .padding(horizontal = 5.dp)
+                        .clickable {  navController.navigate("tickets/movieId=${movieId}&date=${selectedDate.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"))}") }
                         .border(width = 1.dp, color = Color.Gray, shape = RoundedCornerShape(5.dp))
                         .padding(horizontal = 15.dp, vertical = 10.dp)) {
                     Text(text = timing.showTime, fontFamily = interFontFamily, fontWeight = FontWeight.Bold, fontSize = 16.sp, color = Colors.Emerald)
