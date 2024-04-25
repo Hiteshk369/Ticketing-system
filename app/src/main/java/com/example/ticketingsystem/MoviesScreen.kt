@@ -84,7 +84,7 @@ fun MoviesScreen(navController: NavHostController) {
                                             .fillMaxWidth(1f)
                                             .fillMaxHeight(0.8f)
                                             .clip(shape = RoundedCornerShape(10.dp)),
-                                        contentScale = ContentScale.FillBounds // Adjust as needed
+                                        contentScale = ContentScale.FillBounds
                                     )
                                     Row(horizontalArrangement = Arrangement.SpaceBetween, verticalAlignment = Alignment.CenterVertically, modifier = Modifier
                                         .padding(horizontal = 5.dp)
@@ -118,6 +118,7 @@ fun MoviesScreen(navController: NavHostController) {
         }
     }
 }
+
 @Preview(showBackground = true)
 @Composable
 fun UpcomingBox(){
