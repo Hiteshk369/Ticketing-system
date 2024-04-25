@@ -40,7 +40,28 @@ fun MyNavigation(){
             val movieId = backStackEntry.arguments?.getInt("movieId")
             if(movieId != null){
                 MovieDetailScreen(movieId = movieId, navController=navController)
-            }}
+            }
+        }
+        composable(
+            route = "reviews/{movieId}",
+            arguments = listOf(navArgument("movieId"){type= NavType.IntType})
+        ){
+                backStackEntry ->
+            val movieId = backStackEntry.arguments?.getInt("movieId")
+            if(movieId != null){
+                ReviewsScreen(movieId = movieId, navController=navController)
+            }
+        }
+        composable(
+            route = "shows/{movieId}",
+            arguments = listOf(navArgument("movieId"){type= NavType.IntType})
+        ){
+                backStackEntry ->
+            val movieId = backStackEntry.arguments?.getInt("movieId")
+            if(movieId != null){
+                MovieShowScreen(movieId = movieId, navController=navController)
+            }
+        }
         composable(
             route="order/{orderId}",
             arguments = listOf(navArgument("orderId"){type= NavType.IntType})

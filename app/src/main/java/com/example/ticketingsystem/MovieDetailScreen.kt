@@ -3,6 +3,7 @@ package com.example.ticketingsystem
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -25,6 +26,9 @@ import androidx.compose.material.icons.outlined.KeyboardArrowRight
 import androidx.compose.material.icons.outlined.MoreVert
 import androidx.compose.material.icons.outlined.ThumbUp
 import androidx.compose.material.icons.rounded.AccountCircle
+import androidx.compose.material3.BottomAppBar
+import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -71,6 +75,20 @@ fun MovieDetailScreen(movieId: Int, navController: NavHostController) {
                     )
                 }
             })
+        },
+        bottomBar = {
+            BottomAppBar(actions = {
+                Row(
+                    Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = 15.dp)) {
+                    Button(onClick = { navController.navigate("shows/${movie?.id}") },Modifier.fillMaxWidth(), colors = ButtonDefaults.buttonColors(Colors.Red), shape = RoundedCornerShape(8.dp)) {
+                        Text(text = "Book tickets", fontFamily = interFontFamily, fontSize = 18.sp, fontWeight = FontWeight.SemiBold)
+                    }
+                }
+            },
+                Modifier
+                    .height(60.dp))
         }
     ) {
         paddingValues ->
@@ -209,7 +227,7 @@ fun MovieDetailScreen(movieId: Int, navController: NavHostController) {
                             .fillMaxWidth()
                             .padding(horizontal = 15.dp, vertical = 20.dp), horizontalArrangement = Arrangement.SpaceBetween, verticalAlignment = Alignment.CenterVertically) {
                         Text(text = "Top reviews", fontFamily = interFontFamily, fontWeight = FontWeight.SemiBold, fontSize = 18.sp)
-                        Row( verticalAlignment = Alignment.CenterVertically) {
+                        Row( verticalAlignment = Alignment.CenterVertically, modifier = Modifier.clickable { navController.navigate("reviews/${movie.id}") }) {
                             Text(text = "44.7K reviews", fontFamily = interFontFamily, fontWeight = FontWeight.Normal, fontSize = 14.sp, color = Colors.Red)
                             Icon(imageVector = Icons.Outlined.KeyboardArrowRight, contentDescription = "Chevron", tint = Colors.Red, modifier = Modifier.size(20.dp) )
                         }
@@ -225,7 +243,7 @@ fun MovieDetailScreen(movieId: Int, navController: NavHostController) {
                                 modifier = Modifier
                                     .padding(end = 10.dp) // Add some horizontal padding between cards
                             ) {
-                                ReviewCard()
+                                ReviewCard(movie.id, navController)
                             }
                         }
                     }
@@ -291,11 +309,12 @@ fun Badge(text: String){
 }
 
 @Composable
-fun ReviewCard(){
+fun ReviewCard(movieId: Int, navController: NavHostController){
     val screenWidthDp: Dp = LocalConfiguration.current.screenWidthDp.dp
     val itemWidth: Dp = (screenWidthDp - 50.dp)
     Card( modifier = Modifier
         .width(itemWidth)
+        .clickable { navController.navigate("reviews/${movieId}") }
         .background(color = Colors.Pearl)
         .border(width = 1.dp, color = Colors.Slate, shape = RoundedCornerShape(8.dp))
         .padding(vertical = 10.dp, horizontal = 20.dp)) {
@@ -305,7 +324,7 @@ fun ReviewCard(){
                 .background(Colors.Pearl)) {
             Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.SpaceBetween, modifier = Modifier.fillMaxWidth()) {
                 Row(verticalAlignment = Alignment.CenterVertically) {
-                    Icon(imageVector = Icons.Rounded.AccountCircle, contentDescription = "Account", Modifier.size(35.dp))
+                    Icon(imageVector = Icons.Rounded.AccountCircle, contentDescription = "Account", Modifier.size(35.dp), tint = Color.Gray)
                     Text(text = "Hitesh", fontFamily = interFontFamily, fontWeight = FontWeight.Medium, fontSize = 18.sp, modifier = Modifier.padding(10.dp))
                 }
                 Row(verticalAlignment = Alignment.CenterVertically) {
